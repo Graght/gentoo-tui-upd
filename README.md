@@ -1,5 +1,3 @@
-# gentoo-tui-upd
-upd is a simple .bashrc script using tmux to create a pleasant tui for gentoo users when updating the system. Simply type upd to use it instead of the long emerge command.
 # Gentoo TUI Update Wrapper
 
 A simple Bash function to automate Gentoo system updates with a clean TUI dashboard using `tmux` and `emlop`.
@@ -15,11 +13,12 @@ Ensure you have the necessary tools installed:
 sudo emerge -a app-misc/tmux app-portage/emlop
 ```
 **Installation**
+
 Open your ~/.bashrc (using nvim, hx, or nano).
 
 Copy and paste the following function at the end of the file:
 
-Bash
+```bash
 upd() {
     # Start a tmux session for the update and monitor
     tmux new-session -d -s "gentoo-update" "sudo emaint sync -a && sudo emerge -auDU --quiet-build=y @world"
@@ -33,11 +32,13 @@ upd() {
     # Attach to the session
     tmux attach-session -t "gentoo-update"
 }
+```
 Save the file and reload your shell:
 
-Bash
 source ~/.bashrc
+
 **Usage**
+
 Simply type upd in your terminal.
 
 Enter your password when prompted.
