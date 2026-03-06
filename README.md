@@ -22,6 +22,7 @@ Add: your_username ALL=(ALL) NOPASSWD: /usr/bin/emlop.
 Installation
 Open your ~/.bashrc and paste the following function:
 
+```bash
 upd() {
     # Start a tmux session for the update, world update, and depclean
     
@@ -36,6 +37,7 @@ upd() {
     # Attach to the session
     tmux attach-session -t "gentoo-update"
 }
+```
 Save the file and reload your shell:
 
 Bash
