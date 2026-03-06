@@ -12,19 +12,23 @@ Ensure you have the necessary tools installed:
 ```bash
 sudo emerge -a app-misc/tmux app-portage/emlop
 ```
-**Installation**
+Passwordless emlop (Optional but Recommended)
+To avoid being prompted for a password twice (once for the update and once for the monitor), add a sudoers rule:
 
-Open your ~/.bashrc (using nvim, hx, or nano).
+Run sudo visudo -f /etc/sudoers.d/emlop-nopasswd.
 
-Copy and paste the following function at the end of the file:
+Add: your_username ALL=(ALL) NOPASSWD: /usr/bin/emlop.
 
-```bash
+Installation
+Open your ~/.bashrc and paste the following function:
+
 upd() {
-    # Start a tmux session for the update and monitor
-    tmux new-session -d -s "gentoo-update" "sudo emaint sync -a && sudo emerge -auDU --quiet-build=y @world"
+    # Start a tmux session for the update, world update, and depclean
     
-    # Split for the emlop TUI monitor
-    tmux split-window -v -p 30 -t "gentoo-update" "emlop -m"
+    tmux new-session -d -s "gentoo-update" "sudo emaint sync -a && sudo emerge -auDU --quiet-build=y @world && sudo emerge -a --depclean"
+    
+    # Split for the emlop TUI prediction (Remaining, Total, Average)
+    tmux split-window -v -p 30 -t "gentoo-update" "watch -n 5 'sudo emlop predict --show rta'"
     
     # Focus the top pane for password/confirmation
     tmux select-pane -t 0
@@ -32,17 +36,14 @@ upd() {
     # Attach to the session
     tmux attach-session -t "gentoo-update"
 }
-```
 Save the file and reload your shell:
 
+Bash
 source ~/.bashrc
 
-**Usage**
-
+Usage
 Simply type upd in your terminal.
 
-Enter your password when prompted.
+Confirmation: Review the package list and press y to start the compilation.
 
-Review the package list and press y to start the compilation.
-
-Watch the emlop TUI at the bottom for real-time ETAs!
+ETA: Watch the bottom pane for live estimates based on your hardware history.
